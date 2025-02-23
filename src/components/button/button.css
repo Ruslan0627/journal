@@ -1,0 +1,16 @@
+.button {
+	padding: 5px 15px;
+	border-radius: 5px;
+	font-size: 12px;
+	border: none;
+}
+
+.primary {
+	background-color: #9D61FF;
+	color: #fff;
+}
+
+.white {
+	background-color:#fff;
+	color:  #9D61FF;
+}

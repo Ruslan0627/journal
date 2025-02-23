@@ -1,0 +1,5 @@
+.app {
+  display: flex;
+  gap: 80px;
+  padding: 50px;
+}
