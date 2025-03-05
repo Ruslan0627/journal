@@ -1,3 +1,4 @@
+import "./body.css"
 function Body( { children } ) {
 		return (
 			<div className="body">

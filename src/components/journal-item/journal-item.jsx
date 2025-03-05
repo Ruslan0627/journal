@@ -1,7 +1,6 @@
 import "./journal-item.css"
 
-function JournalItem( props ) {
-	const { data } = props	
+function JournalItem( { data } ) {	
 	const formatedDate = new  Intl.DateTimeFormat("ru-RU").format(data.date)
 	
 		return (
