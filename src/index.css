@@ -3,6 +3,7 @@
   color: #FFFFFF;
   font-weight: 400;
   line-height: 1.5;
+  --purple-color:rgb(157, 97, 255);
 }
 
 * {

@@ -1,0 +1,59 @@
+.journalForm {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.invalid {
+	border-bottom: 1px solid red !important;
+	transition: border-bottom 2s ease-in-out;
+}
+
+.title {
+	color: rgb(255, 255, 255);
+		font-family: Fira Sans;
+		font-size: 40px;
+		font-weight: 600;
+		line-height: 48px;
+		outline: none;
+		background: transparent;
+		border: none;
+}
+
+.title::placeholder {
+	font-size: 20px;
+	font-weight: 300 ;
+}
+
+.input {
+	width: 100%;
+	caret-color: var(--purple-color);
+	border: none ;
+	outline: none;
+	background: transparent;
+	color: rgb(255, 255, 255);
+}
+
+.inputLabel {
+	display: flex;
+	gap: 0 45px;
+	color: rgb(255, 255, 255);
+		font-family: Fira Sans;
+		font-size: 18px;
+		font-weight: 300;
+		line-height: 22px;
+		letter-spacing: 0%;
+		text-align: left;
+		border-bottom: 1px solid var(--purple-color);
+		padding-bottom: 5px;
+}
+
+.post {
+	color: rgb(255, 255, 255);
+	font-size: 24px;
+	font-weight: 400;
+	border: none;
+	outline: none;
+	background: transparent;
+	caret-color: var(--purple-color);
+}
