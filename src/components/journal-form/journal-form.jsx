@@ -1,40 +1,40 @@
 import styles from "./journal-form.module.css";
 import Button from "../button/button";
-import { useState } from "react";
+import { useEffect, useReducer } from "react";
 import cn from "classnames";
+import { FORM_INITIAL_STATE, formReducer } from "./journal-form.state";
 
 function JournalForm({ onSubmit }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    date: "",
-    tag: ""
-  });
+  const [state, dispatch] = useReducer(formReducer,FORM_INITIAL_STATE)
+  const {isValid, isFormReadyToSubmit, values} = state
 
-  const [formValid, setFormValid] = useState({
-    title: true,
-    date: true,
-    tag: true
-  });
+  useEffect(() => {
+    let timerId 
+    timerId = setTimeout(()=> {
+      dispatch({type:"RESET_VALID"})
+    },2000) 
+    return () => {
+      clearTimeout(timerId)
+    }
+  } ,[isValid])
+  
+  useEffect(() => {
+    if (isFormReadyToSubmit) {
+      onSubmit(state.values)
+      dispatch({type:"RESET_VALUES"})
+    }
+  },[isFormReadyToSubmit])
 
-  const handleChange = (e, key) => {
-    const value = e.target.value;
-    setFormData((prev) => ({ ...prev, [key]: value }));
-    setFormValid((prev) => ({ ...prev, [key]: !!value }));
+  function handleChange (e)  {
+    const {name,value} = e.target;
+    dispatch({type:"SET_VALUE", payload:{[name]:value}})
   };
 
-  const onSubmitForm = (e) => {
-    e.preventDefault();
-    if (!formData.title || !formData.date || !formData.tag) {
-      setFormValid({
-        title: !!formData.title,
-        date: !!formData.date,
-        tag: !!formData.tag
-      });
-      return
-    }
-    onSubmit(formData);
-    setFormData({ title: "", date: "", tag: "" });
-    setFormValid({ title: true, date: true, tag: true });
+  function onSubmitForm (e) {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const formValues = Object.fromEntries(formData)
+    dispatch({type:"SUBMIT", payload:formValues})
   };
 
   return (
@@ -42,15 +42,15 @@ function JournalForm({ onSubmit }) {
       <input
       placeholder="Введите заголовк"
         className={cn(styles.title,styles.input,{
-          [styles.invalid]: !formValid.title 
+          [styles.invalid]: !isValid.title 
         })}
         name="title"
         type="text"
-        value={formData.title}
-        onChange={(e) => handleChange(e, "title")}
+        value={values.title}
+        onChange={ handleChange}
       />
       <label className={cn(styles.inputLabel,{
-          [styles.invalid]: !formValid.date 
+          [styles.invalid]: !isValid.date 
         })} 
         htmlFor="date">
         Дата
@@ -59,12 +59,12 @@ function JournalForm({ onSubmit }) {
         name="date"
         id="date"
         type="date"
-        value={formData.date}
-        onChange={(e) => handleChange(e, "date")}
+        value={values.date}
+        onChange={ handleChange}
       />
       </label>
       <label className={cn(styles.inputLabel,{
-          [styles.invalid]: !formValid.tag 
+          [styles.invalid]: !isValid.tag 
         })} htmlFor="tag">
         Метка
       <input
@@ -72,12 +72,19 @@ function JournalForm({ onSubmit }) {
         name="tag"
         id="tag"
         type="text"
-        value={formData.tag}
-        onChange={(e) => handleChange(e, "tag")}
+        value={values.tag}
+        onChange={handleChange}
       />
       </label>
-      <textarea className={styles.post} name="post" cols="30" rows="10"></textarea>
-      <Button txt="Отправить" disabled={!formValid.title || !formValid.date || !formValid.tag} />
+      <textarea 
+      className={styles.post} 
+      name="post" 
+      cols="30" 
+      value={values.post}
+      rows="10"
+      onChange={ handleChange}
+      />
+      <Button txt="Отправить"  />
     </form>
   );
 }
