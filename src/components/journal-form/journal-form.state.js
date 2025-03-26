@@ -9,7 +9,8 @@ export const FORM_INITIAL_STATE = {
 		title: "",
     date: "",
     tag: "",
-		post:""
+		post:"",
+		userId:null
 	},
 	isFormReadyToSubmit:false,
 }
@@ -20,6 +21,12 @@ export const formReducer = (state, action) => {
 		return {
 			... state, isValid:FORM_INITIAL_STATE.isValid
 		};
+		case "RESET_VALUES":
+			return {
+				... state, 
+				values:FORM_INITIAL_STATE.values,
+				isFormReadyToSubmit:false
+			};
 		case "SET_VALUE":
 		return {
 			...state,
@@ -28,12 +35,6 @@ export const formReducer = (state, action) => {
 			...action.payload
 			}
 		}
-		case "RESET_VALUES":
-			return {
-				... state, 
-				values:FORM_INITIAL_STATE.values,
-				isFormReadyToSubmit:false
-			};
 		case "SUBMIT":{
 			const titleValid = !!action.payload.title.trim()
 			const tagValid = !!action.payload.tag.trim()
