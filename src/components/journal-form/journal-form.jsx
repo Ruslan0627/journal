@@ -5,7 +5,7 @@ import cn from "classnames";
 import { FORM_INITIAL_STATE, formReducer } from "./journal-form.state";
 import { UserContext} from "../../context/user.context";
 
-function JournalForm({ onSubmit }) {
+function JournalForm({ onSubmit, selecetdItem }) {
   const [state, dispatch] = useReducer(formReducer,FORM_INITIAL_STATE)
   const {isValid, isFormReadyToSubmit, values} = state
   const titleRef = useRef(null)
@@ -31,6 +31,11 @@ function JournalForm({ onSubmit }) {
 				break;
 		}
 	}
+  useEffect( () => {
+    if (selecetdItem) {
+      dispatch({type:"SET_VALUE", payload:{ ...selecetdItem } })
+    }
+  },[selecetdItem])
 
   useEffect(() => dispatch({type:"SET_VALUE", payload:{ userId }}),[userId])
   useEffect(() => {
@@ -46,6 +51,8 @@ function JournalForm({ onSubmit }) {
   
   useEffect(() => {
     if (isFormReadyToSubmit) {
+      console.log(state );
+      
       onSubmit(state.values)
       dispatch({type:"RESET_VALUES"})
     }
@@ -60,12 +67,11 @@ function JournalForm({ onSubmit }) {
     e.preventDefault()
     const formData = new FormData(e.target)
     const formValues = Object.fromEntries(formData)
-    dispatch({type:"SUBMIT", payload:{...formValues,userId }})
+    dispatch({type:"SUBMIT", payload:{...formValues,userId, id: selecetdItem.id ?? null }})
   };
 
   return (
     <form onSubmit={onSubmitForm} className={styles.journalForm}>
-      <span>{userId}</span>
       <input
       ref={titleRef}
       placeholder="Введите заголовк"
@@ -88,7 +94,7 @@ function JournalForm({ onSubmit }) {
         name="date"
         id="date"
         type="date"
-        value={values.date}
+        value={values.date? new Date(values.date).toISOString().slice(0,10):values.date}
         onChange={ handleChange}
       />
       </label>

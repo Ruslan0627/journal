@@ -1,9 +1,9 @@
 import "./card-btn.css"
 
-function CardButton( {children, variant , className} ) {
+function CardButton( {children, variant , className, onClick} ) {
   const cls = `card-button ${variant || ""} ${className || ""}`;
 		return (
-			<button className= {cls}>
+			<button onClick={onClick} className= {cls}>
 			{children}
 			</button>
 		);

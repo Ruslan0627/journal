@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, useRef} from "react";
 import { UserContext } from "../../context/user.context";
 
 function SelectUser() {
-	const [names, setNames ] = useState([])
+	const [names, setNames] = useState([])
 	const inputRef = useRef(null)
 	useEffect(() => {
 		const saveNames = JSON.parse(localStorage.getItem("save-names"))
@@ -23,23 +23,25 @@ function SelectUser() {
     const formNameValues = Object.fromEntries(nameForm)
 		const name = formNameValues.name
 		const value = names.length + 1
-		
-		setNames(prev => [
-			...prev,
-			{
-				name,
-				value
-			},
-		]);
-		inputRef.current.value = ""
+		if (name === "") {
+			return
+		}
+		else {
+			setNames(prev => [
+				...prev,
+				{
+					name,
+					value
+				},
+			]);
+		}
+
+			inputRef.current.value = ""
 	};
 
 
 	const {setUserId} = useContext(UserContext)
 	const onChangeUser = (e) => setUserId(Number(e.target.value))
-
-
-	
 		return (
 			<div>
 				<form action="" onSubmit={addNewName}>
