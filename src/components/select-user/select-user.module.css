@@ -1,0 +1,21 @@
+.input {
+	width: 73%;
+	padding: 10px 10px;
+	caret-color: var(--purple-color);
+	border: none ;
+	outline: none;
+	background: transparent;
+	color: rgb(255, 255, 255);
+}
+
+.select {
+	margin-top: 20px;
+	outline:none;
+	background: transparent;
+	color: rgb(255, 255, 255);
+	padding: 10px 10px;
+	border-radius: 5px;
+	appearance: none;
+  width: 100%;
+  padding-right: 40px;
+}
