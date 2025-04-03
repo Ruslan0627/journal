@@ -10,7 +10,9 @@ export const FORM_INITIAL_STATE = {
     date: "",
     tag: "",
 		post:"",
-		userId:null
+		userId:null,
+		id:null
+		
 	},
 	isFormReadyToSubmit:false,
 }

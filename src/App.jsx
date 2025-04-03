@@ -10,6 +10,7 @@ import Header from "./components/header/header";
 
 function App() {
 const [data, setData] = useState([]);
+const [selecetdItem, setSelectedItem] = useState({})
 useEffect(() => {
 	const items = JSON.parse(localStorage.getItem("journal-item"));
 	if (items) {
@@ -26,18 +27,31 @@ useEffect(() => {
 	if (data.length) {
 		localStorage.setItem("journal-item", JSON.stringify(data));
 	}
-}, [data.length]);
+}, [data]);
 
 const addNewJournalItem = formData => {
 	console.log(formData);
-	
-	setData(prev => [
-		{
-			...formData,
-			date: new Date(formData.date),
-		},
-		...prev
-	]);
+	const newId = data.length + 1;
+	const existItem = data.find(elem => elem.id === formData.id);
+
+	if (existItem) {
+    setData(prev =>
+      prev.map(item =>
+        item.id === formData.id
+          ? { ...formData, date: new Date(formData.date) }
+          : item
+      )
+    );
+	} else {
+		setData(prev => [
+			{
+				...formData,
+				date: new Date(formData.date),
+				id: newId,
+			},
+			...prev,
+		]);
+	}
 };
 
 	return (
@@ -46,10 +60,12 @@ const addNewJournalItem = formData => {
 			<LeftPanel>
 				<Header/>
 				<JournalAddButton variant={"primary"} />
-				<JournalList data={data} />
+				<JournalList 
+				setSelectedItem = {setSelectedItem} 
+				data={data} />
 			</LeftPanel>
 			<Body>
-				<JournalForm onSubmit={addNewJournalItem} />
+				<JournalForm onSubmit={addNewJournalItem} selecetdItem = {selecetdItem} />
 			</Body>
 </UserContextProvider>
 		</div>
