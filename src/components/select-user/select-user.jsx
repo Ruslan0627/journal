@@ -1,5 +1,8 @@
 import { useContext, useEffect, useState, useRef} from "react";
 import { UserContext } from "../../context/user.context";
+import cn from "classnames"
+import Button from "../button/button";
+import styles from "../select-user/select-user.module.css"
 
 function SelectUser() {
 	const [names, setNames] = useState([])
@@ -44,16 +47,36 @@ function SelectUser() {
 	const onChangeUser = (e) => setUserId(Number(e.target.value))
 		return (
 			<div>
-				<form action="" onSubmit={addNewName}>
-					<input ref={inputRef} type="text" name="name" />
-					<button>Добавитть ползователя</button>
-				</form>
-			<select onChange={onChangeUser} style={{width:"100%"}} name="user" id="user">
-				{
-					names.map(( elem, idx )=> (<option  key={idx} value={elem.value}>{elem.name}</option>) )
-				}
+			<form action="" onSubmit={addNewName}>
+				<label
+					className={cn(styles.inputLabel, {
+					})}
+					htmlFor="name"
+				>
+					<input
+						className={cn(styles.input)}
+						placeholder="Ввидите новго пользователя"
+						ref={inputRef}
+						type="text"
+						name="name"
+					/>
+				</label>
+				<Button txt={"Добавитть ползователя"} />
+			</form>
+			<select
+				className={cn(styles.select)}
+				onChange={onChangeUser}
+				style={{ width: "100%" }}
+				name="user"
+				id="user"
+			>
+				{names.map((elem, idx) => (
+					<option key={idx} value={elem.value}>
+						{elem.name}
+					</option>
+				))}
 			</select>
-			</div>
+		</div>
 		)
 }
 
